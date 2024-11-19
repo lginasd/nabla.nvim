@@ -479,11 +479,7 @@ elseif exp.kind == "funexp" then
 	@otherwise_just_print_out_function_as_text
 
 @transform_function_into_ascii+=
-if name == "frac" then
-	@build_ascii_fraction
-
-@transform_function_into_ascii+=
-if name == "dfrac" then
+if (name == "frac" or name == "dfrac") then
 	@build_ascii_fraction
 
 @build_ascii_fraction+=

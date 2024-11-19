@@ -1583,7 +1583,7 @@ function to_ascii(explist, exp_i)
 
     elseif exp.kind == "funexp" then
     	local name = exp.sym
-    	if name == "frac" then
+    	if (name == "frac" or name == "dfrac") then
     		local leftgrid = to_ascii({explist[exp_i+1]}, 1)
     		local rightgrid = to_ascii({explist[exp_i+2]}, 1)
     		exp_i = exp_i + 2
@@ -1740,6 +1740,8 @@ function to_ascii(explist, exp_i)
     		  g = g:join_hori(col_spacer)
     		end
 
+			elseif name == "limits" then
+				g = grid:new(0, 0, { "" }, "op")
 
 
     	elseif name == "bar" then
