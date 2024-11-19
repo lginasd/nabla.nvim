@@ -482,6 +482,10 @@ elseif exp.kind == "funexp" then
 if name == "frac" then
 	@build_ascii_fraction
 
+@transform_function_into_ascii+=
+if name == "dfrac" then
+	@build_ascii_fraction
+
 @build_ascii_fraction+=
 local leftgrid = to_ascii({explist[exp_i+1]}, 1)
 local rightgrid = to_ascii({explist[exp_i+2]}, 1)
