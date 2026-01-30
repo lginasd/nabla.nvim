@@ -143,7 +143,7 @@ end
 @append_number_superscript+=
 local num = exp.num
 if num == 0 then
-	superscript = superscript .. sub_letters["0"]
+	superscript = superscript .. sup_letters["0"]
 else
 	if num < 0 then
 		superscript = "₋" .. superscript

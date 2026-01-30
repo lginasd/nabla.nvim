@@ -1306,7 +1306,7 @@ function put_subsup_aside(g, sub, sup)
   		if exp.kind == "numexp" and math.floor(exp.num) == exp.num then
   			local num = exp.num
   			if num == 0 then
-  				superscript = superscript .. sub_letters["0"]
+  				superscript = superscript .. sup_letters["0"]
   			else
   				if num < 0 then
   					superscript = "₋" .. superscript
@@ -1473,7 +1473,7 @@ function put_if_only_sup(g, sub, sup)
   		if exp.kind == "numexp" and math.floor(exp.num) == exp.num then
   			local num = exp.num
   			if num == 0 then
-  				superscript = superscript .. sub_letters["0"]
+  				superscript = superscript .. sup_letters["0"]
   			else
   				if num < 0 then
   					superscript = "₋" .. superscript
@@ -1735,14 +1735,24 @@ function to_ascii(explist, exp_i)
     	  g = grid:new(3, 1, { "lim" }, "op")
 
     	  g, exp_i = stack_subsup(explist, exp_i, g)
-    		local col_spacer = grid:new(1, 1, { " " })
-    		if g then
-    		  g = g:join_hori(col_spacer)
-    		end
+    	  local col_spacer = grid:new(1, 1, { " " })
+    	  if g then
+    	    g = g:join_hori(col_spacer)
+    	  end
 
-			elseif name == "limits" then
-				g = grid:new(0, 0, { "" }, "op")
 
+    	elseif name == "limits" then
+    	  local prevexp = #explist > 1 and explist[exp_i-1] or nil
+    	  if not (prevexp ~= nil and prevexp.kind == "funexp" and prevexp.sym == "lim") then
+    	    -- if not preceded by `\lim` should be treated as error, just display expression
+    	    g = grid:new(7, 1, {"\\limits"}, "")
+    	    g, exp_i = stack_subsup(explist, exp_i, g)
+    	    local col_spacer = grid:new(1, 1, { " " })
+    	    if g then
+    	      g = g:join_hori(col_spacer)
+    	    end
+
+    	  end
 
     	elseif name == "bar" then
     	  local ingrid = to_ascii({explist[exp_i+1]}, 1)

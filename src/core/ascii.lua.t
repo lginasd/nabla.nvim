@@ -757,8 +757,17 @@ elseif name == "lim" then
   g = grid:new(3, 1, { "lim" }, "op")
 
   g, exp_i = stack_subsup(explist, exp_i, g)
-	@put_col_spacer_to_g
+  @put_col_spacer_to_g
 
+@transform_function_into_ascii+=
+elseif name == "limits" then
+  local prevexp = #explist > 1 and explist[exp_i-1] or nil
+  if not (prevexp ~= nil and prevexp.kind == "funexp" and prevexp.sym == "lim") then
+    -- if not preceded by `\lim` should be treated as error, just display expression
+    g = grid:new(7, 1, {"\\limits"}, "")
+    g, exp_i = stack_subsup(explist, exp_i, g)
+    @put_col_spacer_to_g
+  end
 
 @special_symbols+=
 ["partial"] = "∂",
